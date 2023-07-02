@@ -2,39 +2,36 @@
 
 grid = []
 Tree = Struct.new(:height, :scores) do
-    def score
-        scores.inject(:*)
-    end
+  def score
+    scores.inject(:*)
+  end
 end
 
 DATA.each_line.each_with_index do |line, idx|
-    grid[idx] = line.strip.split("").map {|n| Tree.new(n.to_i, [])}
+  grid[idx] = line.strip.split('').map { |n| Tree.new(n.to_i, []) }
 end
 
 def calculate_scores(trees)
-    trees.each do |row|
-        row.each_with_index do |tree, idx|
-            trees_to_edge = row.first([0, idx].max).reverse
-            score = trees_to_edge.
-                inject(0) do |memo, t|
-                    if t.height < tree.height
-                        memo += 1
-                    else
-                        break memo += 1
-                    end
-                end
-            tree.scores.push(score)
-        end
+  trees.each do |row|
+    row.each_with_index do |tree, idx|
+      trees_to_edge = row.first([0, idx].max).reverse
+      score = trees_to_edge
+              .inject(0) do |memo, t|
+        break memo += 1 unless t.height < tree.height
+
+        memo += 1
+      end
+      tree.scores.push(score)
     end
+  end
 end
 
 def highest_score(grid)
-    grid.flatten.map(&:score).max
+  grid.flatten.map(&:score).max
 end
 
-
 def rotate(grid)
-    grid.transpose.map(&:reverse)
+  grid.transpose.map(&:reverse)
 end
 
 calculate_scores(grid)

@@ -4,29 +4,27 @@ grid = []
 Tree = Struct.new(:height, :seen)
 
 DATA.each_line.each_with_index do |line, idx|
-    grid[idx] = line.strip.split("").map {|n| Tree.new(n.to_i, false)}
+  grid[idx] = line.strip.split('').map { |n| Tree.new(n.to_i, false) }
 end
 
 def mark_seen_trees(trees)
-    trees.each do |row|
-        row.each_with_index do |tree, idx|
-            if row.first([0, idx].max).all? {|t| t.height < tree.height }
-                tree.seen = true
-            end
-        end
+  trees.each do |row|
+    row.each_with_index do |tree, idx|
+      tree.seen = true if row.first([0, idx].max).all? { |t| t.height < tree.height }
     end
+  end
 end
 
 def count_seen_trees(trees)
-    trees.inject(0) do |total, row|
-        count = row.select(&:seen).count
-        total += count
-        total
-    end
+  trees.inject(0) do |total, row|
+    count = row.select(&:seen).count
+    total += count
+    total
+  end
 end
 
 def rotate(grid)
-    grid.transpose.map(&:reverse)
+  grid.transpose.map(&:reverse)
 end
 
 mark_seen_trees(grid)
