@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 
-grid = []
 Tree = Struct.new(:height, :seen)
 
-DATA.each_line.each_with_index do |line, idx|
-  grid[idx] = line.strip.split('').map { |n| Tree.new(n.to_i, false) }
+def build_grid(file)
+  file.each_line.each_with_index.each_with_object([]) do |(line, idx), grid|
+    grid[idx] = line.strip.split('').map { |n| Tree.new(n.to_i, false) }
+  end
 end
 
 def mark_seen_trees(trees)
@@ -26,6 +27,8 @@ end
 def rotate(grid)
   grid.transpose.map(&:reverse)
 end
+
+grid = build_grid(DATA)
 
 mark_seen_trees(grid)
 grid_90 = rotate(grid)
