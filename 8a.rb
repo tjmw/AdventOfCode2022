@@ -3,21 +3,21 @@
 Tree = Struct.new(:height, :seen)
 
 def build_grid(file)
-  file.each_line.each_with_index.each_with_object([]) do |(line, idx), grid|
-    grid[idx] = line.strip.split('').map { |n| Tree.new(n.to_i, false) }
+  file.each_line.each_with_object([]) do |line, grid|
+    grid.push(line.strip.split('').map { |n| Tree.new(n.to_i, false) })
   end
 end
 
-def mark_seen_trees(trees)
-  trees.each do |row|
+def mark_seen_trees(grid)
+  grid.each do |row|
     row.each_with_index do |tree, idx|
       tree.seen = true if row.first([0, idx].max).all? { |t| t.height < tree.height }
     end
   end
 end
 
-def count_seen_trees(trees)
-  trees.inject(0) do |total, row|
+def count_seen_trees(grid)
+  grid.inject(0) do |total, row|
     count = row.select(&:seen).count
     total += count
     total
