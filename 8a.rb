@@ -19,8 +19,7 @@ end
 def count_seen_trees(grid)
   grid.inject(0) do |total, row|
     count = row.select(&:seen).count
-    total += count
-    total
+    total + count
   end
 end
 
