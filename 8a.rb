@@ -29,15 +29,16 @@ end
 
 grid = build_grid(DATA)
 
-mark_seen_trees(grid)
-grid_90 = rotate(grid)
-mark_seen_trees(grid_90)
-grid_180 = rotate(grid_90)
-mark_seen_trees(grid_180)
-grid_270 = rotate(grid_180)
-mark_seen_trees(grid_270)
+grid
+  .then { mark_seen_trees(_1) }
+  .then { rotate(_1) }
+  .then { mark_seen_trees(_1) }
+  .then { rotate(_1) }
+  .then { mark_seen_trees(_1) }
+  .then { rotate(_1) }
+  .then { mark_seen_trees(_1) }
 
-puts count_seen_trees(grid_270)
+puts count_seen_trees(grid)
 
 __END__
 121212011303121030310342042402330124244111344151215543452341031241241020400101112013333020112100012
