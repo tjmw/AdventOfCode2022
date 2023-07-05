@@ -11,7 +11,7 @@ end
 def mark_seen_trees(grid)
   grid.each do |row|
     row.each_with_index do |tree, idx|
-      tree.seen = true if row.first([0, idx].max).all? { |t| t.height < tree.height }
+      tree.seen = true if row.first(idx).all? { |t| t.height < tree.height }
     end
   end
 end
